@@ -1,0 +1,10 @@
+@use 'reset.scss';
+
+:root {
+  --el-header-height: 48px;
+  --el-aside-width: 200px;
+}
+
+body {
+  min-height: 100vh;
+}
