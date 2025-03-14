@@ -27,7 +27,7 @@ function handleClose(key: string, keyPath: string[]) {
 <template>
   <el-aside width="200px" class="aside">
     <div class="logo">
-      通用管理系统
+      Cloud Boot
     </div>
     <el-menu
       router

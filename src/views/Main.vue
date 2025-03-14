@@ -24,6 +24,11 @@ import Header from '@/layout/header/index.vue'
   background-color: #333;
 }
 .main {
-  height: calc(100vh - var(--el-header-height));
+  --el-main-padding: 8px;
+  --main-margin: 8px;
+  margin: var(--main-margin);
+  height: calc(100vh - var(--el-header-height) - var(--el-main-padding) - var(--main-margin));
+  border: 1px solid #e4e7ed;
+  background-color: #ffffff;
 }
 </style>
