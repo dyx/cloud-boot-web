@@ -1,5 +1,20 @@
 <script setup lang="ts">
+import { logout } from '@/api/login.ts'
+import { useUserInfoStore } from '@/stores/userInfo.ts'
+import { Session } from '@/utils/storage.ts'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const userInfoStore = useUserInfoStore()
+
+function handleCommand(command: string) {
+  if (command === 'logout') {
+    logout().then(() => {
+      Session.clear()
+      router.push('/login')
+    })
+  }
+}
 </script>
 
 <template>
@@ -16,11 +31,11 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="12" class="r-content">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <div class="user-info">
             <el-avatar size="small" shape="circle" />
             <span class="nickname">
-              admin
+              {{ userInfoStore.$state.nickname }}
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>
@@ -28,8 +43,12 @@
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item command="personalInfo">
+                个人信息
+              </el-dropdown-item>
+              <el-dropdown-item command="logout">
+                退出登录
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

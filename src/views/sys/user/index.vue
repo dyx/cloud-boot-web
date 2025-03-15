@@ -74,7 +74,7 @@ handleSearch()
   </el-row>
   <el-row class="operation" align="middle">
     <el-col :span="16" class="left">
-      <el-button type="primary" @click="saveVisible = true">
+      <el-button v-perm="'user:save'" type="primary" @click="saveVisible = true">
         新增
       </el-button>
     </el-col>
@@ -96,7 +96,7 @@ handleSearch()
     <el-table-column prop="status" label="状态" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="{ row }">
-        <el-button size="small" @click="handleUpdate(row)">
+        <el-button v-perm="'user:update'" size="small" @click="handleUpdate(row)">
           修改
         </el-button>
         <el-popconfirm
@@ -106,7 +106,7 @@ handleSearch()
           @confirm="handleRemove(row.id)"
         >
           <template #reference>
-            <el-button size="small" type="danger">
+            <el-button v-perm="'user:remove'" size="small" type="danger">
               删除
             </el-button>
           </template>

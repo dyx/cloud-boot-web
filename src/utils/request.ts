@@ -1,4 +1,5 @@
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import { useUserInfoStore } from '@/stores/userInfo.ts'
 import { Session } from '@/utils/storage.ts'
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -34,7 +35,8 @@ service.interceptors.response.use((response: AxiosResponse<any>) => {
     ElMessageBox.alert('令牌已过期，请重新登录', '', {
       callback: () => {
         Session.clear()
-        window.location.href = '/'
+        useUserInfoStore().clearUserInfo()
+        window.location.href = '/login'
       },
     })
   }

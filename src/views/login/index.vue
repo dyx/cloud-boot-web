@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { login } from '@/api/sys/login.ts'
+import { login } from '@/api/login.ts'
+import { useUserInfoStore } from '@/stores/userInfo.ts'
 import { Session } from '@/utils/storage.ts'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -31,12 +32,14 @@ const rules = reactive<FormRules<LoginForm>>({
 async function handleLogin() {
   if (!loginFormRef.value)
     return
-  await loginFormRef.value.validate((valid) => {
+  await loginFormRef.value.validate(async (valid) => {
     if (valid) {
-      login(loginForm).then((res) => {
-        Session.setToken(res.data.tokenValue)
-        router.push('/home')
-      })
+      const loginRes = await login(loginForm)
+      Session.setToken(loginRes.data.tokenValue)
+
+      await useUserInfoStore().fetchUserInfo()
+
+      router.push('/home')
     }
   })
 }

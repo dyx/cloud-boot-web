@@ -1,4 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { useUserInfoStore } from '@/stores/userInfo.ts'
+import { Session } from '@/utils/storage.ts'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -30,6 +32,26 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+})
+
+router.beforeEach(async (to, from, next) => {
+  const token = Session.getToken()
+
+  // 已登录状态访问登录页，跳转到首页
+  if (to.path === '/login' && token) {
+    next('/')
+    return
+  }
+
+  // 需要登录权限的页面，未登录时跳转到登录页
+  if (to.path !== '/login' && !token) {
+    next('/login')
+    return
+  }
+
+  await useUserInfoStore().fetchUserInfo()
+
+  next()
 })
 
 export default router

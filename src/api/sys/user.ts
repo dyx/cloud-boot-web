@@ -1,5 +1,12 @@
 import request from '@/utils/request.ts'
 
+export function getCurrentUserInfo() {
+  return request({
+    url: '/user/user/current',
+    method: 'get',
+  })
+}
+
 export function getUserPage(params: any) {
   return request({
     url: '/user/user/page',
