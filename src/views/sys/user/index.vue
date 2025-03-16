@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { Page } from '@/types/commonModel'
-import type { FormInstance } from 'element-plus'
 import { getUserPage, removeUserById } from '@/api/sys/user.ts'
+import ActionToolbar from '@/components/ActionToolbar.vue'
+import PageTable from '@/components/PageTable.vue'
 import SaveUser from '@/views/sys/user/SaveUser.vue'
 import UpdateUser from '@/views/sys/user/UpdateUser.vue'
-import { Refresh, Search } from '@element-plus/icons-vue'
 import { reactive, ref, watch } from 'vue'
 
-const formRef = ref<FormInstance>()
 const form = reactive({
   current: 1,
   size: 10,
@@ -20,16 +19,11 @@ const data = ref<Page>({})
 const id = ref('')
 const saveVisible = ref(false)
 const updateVisible = ref(false)
-const searchVisible = ref(true)
 
 function handleSearch() {
   getUserPage(form).then((res) => {
     data.value = res.data
   })
-}
-function handleReset() {
-  formRef.value!.resetFields()
-  handleSearch()
 }
 
 function handleUpdate(row: any) {
@@ -48,8 +42,8 @@ handleSearch()
 </script>
 
 <template>
-  <el-row v-show="searchVisible" class="search">
-    <el-form ref="formRef" inline :model="form">
+  <ActionToolbar :form="form" @search="handleSearch">
+    <template #form-items>
       <el-form-item prop="username" label="用户名">
         <el-input v-model="form.username" />
       </el-form-item>
@@ -60,35 +54,24 @@ handleSearch()
         <el-input v-model="form.phone" />
       </el-form-item>
       <el-form-item prop="status" label="状态">
-        <el-input v-model="form.status" />
+        <el-select v-model="form.status" style="width: 170px">
+          <el-option label="全部" value="" />
+          <el-option label="启用" value="1" />
+          <el-option label="停用" value="2" />
+        </el-select>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handleSearch">
-          查询
-        </el-button>
-        <el-button @click="handleReset">
-          重置
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </el-row>
-  <el-row class="operation" align="middle">
-    <el-col :span="16" class="left">
+    </template>
+    <template #left-actions>
       <el-button v-perm="'user:save'" type="primary" @click="saveVisible = true">
         新增
       </el-button>
-    </el-col>
-    <el-col :span="8" class="right">
-      <el-tooltip :content="searchVisible ? '隐藏搜索' : '显示搜索'" placement="top">
-        <el-button circle :icon="Search" @click="searchVisible = !searchVisible" />
-      </el-tooltip>
-      <el-tooltip content="刷新" placement="top">
-        <el-button circle :icon="Refresh" @click="handleSearch" />
-      </el-tooltip>
-    </el-col>
-  </el-row>
-  <el-table border :data="data.records" style="width: 100%">
-    <el-table-column type="index" align="center" label="#" width="48" />
+    </template>
+  </ActionToolbar>
+
+  <PageTable
+    v-model:current="form.current" v-model:size="form.size"
+    :records="data.records" :total="data.total"
+  >
     <el-table-column prop="username" label="用户名" width="180" />
     <el-table-column prop="nickname" label="昵称" width="180" />
     <el-table-column prop="email" label="邮箱" width="180" />
@@ -113,33 +96,7 @@ handleSearch()
         </el-popconfirm>
       </template>
     </el-table-column>
-  </el-table>
-  <el-pagination
-    v-model:current-page="form.current"
-    v-model:page-size="form.size"
-    class="pagination"
-    :page-sizes="[10, 20, 50, 100]"
-    background
-    layout="total, sizes, prev, pager, next, jumper"
-    :total="data.total"
-  />
+  </PageTable>
   <SaveUser v-model:visible="saveVisible" @refresh="handleSearch" />
   <UpdateUser :id="id" v-model:visible="updateVisible" @refresh="handleSearch" />
 </template>
-
-<style lang="scss" scoped>
-.search {
-}
-.operation {
-  padding-bottom: 8px;
-  .left {
-  }
-  .right {
-    text-align: right;
-  }
-}
-.pagination {
-  padding-top: 8px;
-  justify-content: flex-end;
-}
-</style>

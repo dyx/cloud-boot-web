@@ -9,7 +9,6 @@ export interface SaveUserDTO {
 
 export interface UpdateUserDTO {
   username?: string
-  password?: string
   nickname?: string
   email?: string
   phone?: string

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SaveUserDTO } from '@/types/sys/user'
+import type { UpdateUserDTO } from '@/types/sys/user'
 import type { FormInstance } from 'element-plus'
 import { getUserById, updateUserById } from '@/api/sys/user.ts'
 import { computed, reactive, ref, watch } from 'vue'
@@ -25,7 +25,7 @@ const dialogVisible = computed({
   set: val => emit('update:visible', val),
 })
 const formRef = ref<FormInstance>()
-const form = ref<SaveUserDTO>({})
+const form = ref<UpdateUserDTO>({})
 const formRules = reactive({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
