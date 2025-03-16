@@ -1,27 +1,16 @@
 <script setup lang="ts">
-const menuList = [
-  {
-    menuId: 0,
-    name: '首页',
-    path: '/home',
-  },
-  {
-    menuId: 1,
-    name: '用户管理',
-    path: '/user',
-  },
-  {
-    menuId: 2,
-    name: '菜单管理',
-    path: '/menu',
-  },
-]
-function handleOpen(key: string, keyPath: string[]) {
-  console.log(key, keyPath)
-}
-function handleClose(key: string, keyPath: string[]) {
-  console.log(key, keyPath)
-}
+import MenuItem from '@/layout/aside/MenuItem.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const props = defineProps<{
+  collapsed: boolean
+  menuData: any
+}>()
+
+const route = useRoute()
+
+const activeMenu = computed(() => route.path)
 </script>
 
 <template>
@@ -30,17 +19,16 @@ function handleClose(key: string, keyPath: string[]) {
       Cloud Boot
     </div>
     <el-menu
-      router
       background-color="#545c64"
       text-color="#fff"
-      default-active="1"
-      class="menu"
-      @open="handleOpen"
-      @close="handleClose"
+      :default-active="activeMenu"
+      :collapse="props.collapsed"
+      router
+      class="el-menu-vertical"
     >
-      <el-menu-item v-for="item in menuList" :key="item.menuId" :index="item.path">
-        <span>{{ item.name }}</span>
-      </el-menu-item>
+      <template v-for="item in menuData" :key="item.path">
+        <MenuItem :data="item" />
+      </template>
     </el-menu>
   </el-aside>
 </template>

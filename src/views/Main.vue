@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import Aside from '@/layout/aside/index.vue'
 import Header from '@/layout/header/index.vue'
+import { useUserInfoStore } from '@/stores/userInfo.ts'
+import { computed } from 'vue'
+
+const userInfoStore = useUserInfoStore()
+const menuData = computed(() => userInfoStore.menuList)
 </script>
 
 <template>
   <div class="common-layout">
     <el-container>
-      <Aside />
+      <Aside :collapsed="false" :menu-data="menuData" />
       <el-container>
         <el-header height="48px" class="header">
           <Header />

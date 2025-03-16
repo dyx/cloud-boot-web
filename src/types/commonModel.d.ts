@@ -3,8 +3,17 @@ export interface Page {
   records?: []
 }
 
-interface UserInfo {
+interface UserInfoVO {
   nickname: string
+  menuList: MenuItemVO[]
   permissionList: string[]
   roleList: string[]
+}
+
+interface MenuItemVO {
+  id?: string
+  name?: string
+  path?: string
+  icon?: string
+  children?: MenuItemVO[]
 }

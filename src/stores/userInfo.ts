@@ -1,10 +1,11 @@
-import type { UserInfo } from '@/types/commonModel'
+import type { UserInfoVO } from '@/types/commonModel'
 import { getCurrentUserInfo } from '@/api/sys/user.ts'
 import { defineStore } from 'pinia'
 
 export const useUserInfoStore = defineStore('userInfo', {
-  state: (): UserInfo => ({
+  state: (): UserInfoVO => ({
     nickname: '',
+    menuList: [],
     permissionList: [],
     roleList: [],
   }),

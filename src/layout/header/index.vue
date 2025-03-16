@@ -2,6 +2,7 @@
 import { logout } from '@/api/login.ts'
 import { useUserInfoStore } from '@/stores/userInfo.ts'
 import { Session } from '@/utils/storage.ts'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -20,24 +21,15 @@ function handleCommand(command: string) {
 <template>
   <div class="header">
     <el-row align="middle" class="header-inner">
-      <el-col :span="12">
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">
-            首页
-          </el-breadcrumb-item>
-          <el-breadcrumb-item>
-            <a href="/user">用户</a>
-          </el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-col>
+      <el-col :span="12" />
       <el-col :span="12" class="r-content">
         <el-dropdown @command="handleCommand">
           <div class="user-info">
             <el-avatar size="small" shape="circle" />
             <span class="nickname">
               {{ userInfoStore.$state.nickname }}
-              <el-icon class="el-icon--right">
-                <arrow-down />
+              <el-icon class="arrow-down">
+                <ArrowDown />
               </el-icon>
             </span>
           </div>
@@ -71,7 +63,7 @@ function handleCommand(command: string) {
           cursor: pointer;
           color: #fff;
         }
-        .el-icon--right {
+        .arrow-down {
           margin-left: 0;
         }
       }
