@@ -3,6 +3,7 @@ import logo from '@/assets/vite.svg'
 import MenuItem from '@/layout/aside/MenuItem.vue'
 import { useLayoutStore } from '@/stores/layout.ts'
 import { useUserInfoStore } from '@/stores/userInfo.ts'
+import { ArrowLeft } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -23,14 +24,10 @@ function toggleCollapse() {
     <div class="logo-container" :class="{ 'is-collapse': isCollapse }">
       <div class="logo-wrapper">
         <img :src="logo" alt="logo" class="logo">
-        <transition name="fade-slide">
-          <span v-show="!isCollapse" class="text">Cloud Boot</span>
-        </transition>
+        <span v-show="!isCollapse" class="text">Cloud Boot</span>
       </div>
     </div>
     <el-menu
-      background-color="#545c64"
-      text-color="#fff"
       :default-active="activeMenu"
       :collapse="isCollapse"
       :collapse-transition="false"
@@ -43,7 +40,7 @@ function toggleCollapse() {
     </el-menu>
     <div class="collapse-button" @click="toggleCollapse">
       <el-icon :class="{ 'rotate-180': isCollapse }">
-        <arrow-left />
+        <ArrowLeft />
       </el-icon>
     </div>
   </el-aside>
@@ -51,15 +48,13 @@ function toggleCollapse() {
 
 <style lang="scss" scoped>
 .aside {
-  background-color: #545c64;
+  background-color: var(--aside-background-color);
   position: relative;
-  transition: width 0.3s ease;
 
   .logo-container {
-    height: var(--el-header-height);
+    height: var(--header-height);
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
 
     &.is-collapse {
       .logo-wrapper {
@@ -74,13 +69,11 @@ function toggleCollapse() {
       justify-content: center;
       height: 100%;
       padding: 0 16px;
-      transition: all 0.3s ease;
 
       .logo {
         width: 32px;
         height: 32px;
         flex-shrink: 0;
-        transition: transform 0.3s ease;
       }
 
       .text {
@@ -115,7 +108,7 @@ function toggleCollapse() {
   }
   .menu {
     border-right: none;
-    height: calc(100vh - var(--el-header-height));
+    height: calc(100vh - var(--header-height));
   }
   .collapse-button {
     position: absolute;
@@ -135,7 +128,7 @@ function toggleCollapse() {
 
     &:hover {
       background: #f5f7fa;
-      transform: translateY(-50%) scale(1.1);
+      transform: translateY(-50%) scale(1.2);
     }
 
     .el-icon {

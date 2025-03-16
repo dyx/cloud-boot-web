@@ -8,7 +8,7 @@ import Header from '@/layout/header/index.vue'
     <el-container>
       <Aside />
       <el-container>
-        <el-header height="48px" class="header">
+        <el-header class="header">
           <Header />
         </el-header>
         <el-main class="main">
@@ -21,14 +21,14 @@ import Header from '@/layout/header/index.vue'
 
 <style lang="scss" scoped>
 .header {
-  background-color: #333;
+  --el-header-height: var(--header-height);
+  background-color: var(--header-background-color);
 }
 .main {
-  --el-main-padding: 8px;
-  --main-margin: 8px;
+  --el-main-padding: var(--main-padding);
   margin: var(--main-margin);
-  height: calc(100vh - var(--el-header-height) - var(--el-main-padding) - var(--main-margin));
+  height: calc(100vh - var(--header-height) - var(--el-main-padding) * 2 - var(--main-margin) * 2);
   border: 1px solid #e4e7ed;
-  background-color: #ffffff;
+  background-color: var(--main-background-color);
 }
 </style>

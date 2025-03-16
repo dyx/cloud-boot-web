@@ -19,57 +19,53 @@ function handleCommand(command: string) {
 </script>
 
 <template>
-  <div class="header">
-    <el-row align="middle" class="header-inner">
-      <el-col :span="12" />
-      <el-col :span="12" class="r-content">
-        <el-dropdown @command="handleCommand">
-          <div class="user-info">
-            <el-avatar size="small" shape="circle" />
-            <span class="nickname">
-              {{ userInfoStore.$state.nickname }}
-              <el-icon class="arrow-down">
-                <ArrowDown />
-              </el-icon>
-            </span>
-          </div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="personalInfo">
-                个人信息
-              </el-dropdown-item>
-              <el-dropdown-item command="logout">
-                退出登录
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </el-col>
-    </el-row>
-  </div>
+  <el-row align="middle" class="header-inner">
+    <el-col :span="12" />
+    <el-col :span="12" class="r-content">
+      <el-dropdown @command="handleCommand">
+        <div class="user-info">
+          <el-avatar size="small" shape="circle" />
+          <span class="nickname">
+            {{ userInfoStore.$state.nickname }}
+            <el-icon class="arrow-down">
+              <ArrowDown />
+            </el-icon>
+          </span>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="personalInfo">
+              个人信息
+            </el-dropdown-item>
+            <el-dropdown-item command="logout">
+              退出登录
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </el-col>
+  </el-row>
 </template>
 
 <style lang="scss" scoped>
-.header {
-  .header-inner {
-    height: var(--el-header-height);
-    .r-content {
-      text-align: right;
-      .user-info {
-        display: flex;
-        align-items: center;
-        .nickname {
-          margin-left: 6px;
-          cursor: pointer;
-          color: #fff;
-        }
-        .arrow-down {
-          margin-left: 0;
-        }
+.header-inner {
+  height: var(--header-height);
+  .r-content {
+    text-align: right;
+    .user-info {
+      display: flex;
+      align-items: center;
+      .nickname {
+        margin-left: 6px;
+        cursor: pointer;
+        color: #fff;
       }
-      .user-info:focus {
-        outline: none;
+      .arrow-down {
+        margin-left: 0;
       }
+    }
+    .user-info:focus {
+      outline: none;
     }
   }
 }

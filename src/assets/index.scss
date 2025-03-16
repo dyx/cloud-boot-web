@@ -1,13 +1,8 @@
 @use 'reset.scss';
-
-:root {
-  --el-header-height: 48px;
-  --el-aside-width: 200px;
-  --el-aside-collapse-width: 64px;
-}
+@use 'variables.scss';
 
 body {
   min-height: 100vh;
-  background-color: #f8f8f8;
+  background-color: var(--body-background-color);
   overflow: hidden;
 }

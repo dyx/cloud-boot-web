@@ -47,19 +47,21 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const token = Session.getToken()
 
-  // 已登录状态访问登录页，跳转到首页
-  if (to.path === '/login' && token) {
-    next('/')
-    return
+  if (to.path === '/login') {
+    // 已登录状态访问登录页，跳转到首页
+    if (token) {
+      next('/')
+      return
+    }
   }
-
-  // 需要登录权限的页面，未登录时跳转到登录页
-  if (to.path !== '/login' && !token) {
-    next('/login')
-    return
+  else {
+    // 需要token认证的页面，未登录时跳转到登录页
+    if (!token) {
+      next('/login')
+      return
+    }
+    await useUserInfoStore().fetchUserInfo()
   }
-
-  await useUserInfoStore().fetchUserInfo()
 
   next()
 })
