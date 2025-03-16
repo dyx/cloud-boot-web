@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 const props = defineProps({
   showIndexColumn: {
@@ -20,7 +20,7 @@ const props = defineProps({
   },
   size: {
     type: Number,
-    default: 10,
+    default: 20,
   },
   pageSizes: {
     type: Array as () => number[],
@@ -28,7 +28,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:current', 'update:size'])
+const emit = defineEmits(['update:current', 'update:size', 'refresh'])
 
 const currentModel = computed({
   get: () => props.current,
@@ -39,11 +39,15 @@ const sizeModel = computed({
   get: () => props.size,
   set: val => emit('update:size', val),
 })
+
+watch([() => props.current, () => props.size], () => {
+  emit('refresh')
+})
 </script>
 
 <template>
   <div>
-    <el-table border :data="records" style="width: 100%">
+    <el-table border stripe :data="records" style="width: 100%">
       <el-table-column v-if="showIndexColumn" type="index" align="center" label="#" width="48" />
       <slot />
     </el-table>

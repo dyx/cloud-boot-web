@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Page } from '@/types/commonModel'
 import { getUserPage, removeUserById } from '@/api/sys/user.ts'
-import ActionToolbar from '@/components/ActionToolbar.vue'
 import PageTable from '@/components/PageTable.vue'
+import SearchToolbar from '@/components/SearchToolbar.vue'
 import SaveUser from '@/views/sys/user/SaveUser.vue'
 import UpdateUser from '@/views/sys/user/UpdateUser.vue'
-import { reactive, ref, watch } from 'vue'
+import ViewUser from '@/views/sys/user/ViewUser.vue'
+import { reactive, ref } from 'vue'
 
 const form = reactive({
   current: 1,
@@ -19,6 +20,7 @@ const data = ref<Page>({})
 const id = ref('')
 const saveVisible = ref(false)
 const updateVisible = ref(false)
+const viewVisible = ref(false)
 
 function handleSearch() {
   getUserPage(form).then((res) => {
@@ -26,6 +28,10 @@ function handleSearch() {
   })
 }
 
+function handleView(row: any) {
+  id.value = row.id
+  viewVisible.value = true
+}
 function handleUpdate(row: any) {
   id.value = row.id
   updateVisible.value = true
@@ -34,15 +40,11 @@ function handleRemove(id: string) {
   removeUserById(id).then(() => handleSearch())
 }
 
-watch([() => form.current, () => form.size], () => {
-  handleSearch()
-})
-
 handleSearch()
 </script>
 
 <template>
-  <ActionToolbar :form="form" @search="handleSearch">
+  <SearchToolbar :form="form" @search="handleSearch">
     <template #form-items>
       <el-form-item prop="username" label="用户名">
         <el-input v-model="form.username" />
@@ -66,20 +68,26 @@ handleSearch()
         新增
       </el-button>
     </template>
-  </ActionToolbar>
+  </SearchToolbar>
 
   <PageTable
-    v-model:current="form.current" v-model:size="form.size"
-    :records="data.records" :total="data.total"
+    v-model:current="form.current"
+    v-model:size="form.size"
+    :records="data.records"
+    :total="data.total"
+    @refresh="handleSearch"
   >
     <el-table-column prop="username" label="用户名" width="180" />
     <el-table-column prop="nickname" label="昵称" width="180" />
     <el-table-column prop="email" label="邮箱" width="180" />
     <el-table-column prop="phone" label="手机号" width="180" />
     <el-table-column prop="status" label="状态" />
-    <el-table-column fixed="right" label="操作" width="150">
+    <el-table-column fixed="right" align="center" label="操作" width="194">
       <template #default="{ row }">
-        <el-button v-perm="'user:update'" size="small" @click="handleUpdate(row)">
+        <el-button type="primary" size="small" @click="handleView(row)">
+          查看
+        </el-button>
+        <el-button v-perm="'user:update'" type="primary" size="small" @click="handleUpdate(row)">
           修改
         </el-button>
         <el-popconfirm
@@ -97,6 +105,7 @@ handleSearch()
       </template>
     </el-table-column>
   </PageTable>
-  <SaveUser v-model:visible="saveVisible" @refresh="handleSearch" />
-  <UpdateUser :id="id" v-model:visible="updateVisible" @refresh="handleSearch" />
+  <SaveUser v-model="saveVisible" @refresh="handleSearch" />
+  <UpdateUser :id="id" v-model="updateVisible" @refresh="handleSearch" />
+  <ViewUser :id="id" v-model="viewVisible" />
 </template>

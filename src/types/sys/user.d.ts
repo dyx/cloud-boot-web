@@ -14,3 +14,11 @@ export interface UpdateUserDTO {
   phone?: string
   status?: string
 }
+
+export interface ViewUserVO {
+  username?: string
+  nickname?: string
+  email?: string
+  phone?: string
+  status?: string
+}
