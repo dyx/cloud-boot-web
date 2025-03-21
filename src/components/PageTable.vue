@@ -28,7 +28,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:current', 'update:size', 'refresh'])
+const emit = defineEmits(['update:current', 'update:size', 'refresh', 'sortChange'])
 
 const currentModel = computed({
   get: () => props.current,
@@ -47,7 +47,7 @@ watch([() => props.current, () => props.size], () => {
 
 <template>
   <div>
-    <el-table border stripe :data="records" style="width: 100%">
+    <el-table border stripe :data="records" style="width: 100%" @sort-change="$emit('sortChange', $event)">
       <el-table-column v-if="showIndexColumn" type="index" align="center" label="#" width="48" />
       <slot />
     </el-table>

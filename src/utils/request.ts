@@ -40,6 +40,9 @@ service.interceptors.response.use((response: AxiosResponse<any>) => {
       },
     })
   }
+  if (status === 500) {
+    ElMessage.error('内部服务器错误')
+  }
   return Promise.reject(error.response.data)
 })
 

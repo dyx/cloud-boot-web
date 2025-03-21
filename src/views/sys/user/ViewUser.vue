@@ -32,6 +32,9 @@ watch(() => props.modelValue, (value) => {
     <el-form-item label="用户名" prop="username">
       <el-input v-model="form.username" />
     </el-form-item>
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="form.name" />
+    </el-form-item>
     <el-form-item label="昵称" prop="nickname">
       <el-input v-model="form.nickname" />
     </el-form-item>

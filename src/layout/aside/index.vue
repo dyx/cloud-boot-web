@@ -3,7 +3,7 @@ import logo from '@/assets/vite.svg'
 import MenuItem from '@/layout/aside/MenuItem.vue'
 import { useLayoutStore } from '@/stores/layout.ts'
 import { useUserInfoStore } from '@/stores/userInfo.ts'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft, HomeFilled } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -34,6 +34,12 @@ function toggleCollapse() {
       router
       class="menu"
     >
+      <el-menu-item index="/home">
+        <template #title>
+          <el-icon><HomeFilled /></el-icon>
+          <span>首页</span>
+        </template>
+      </el-menu-item>
       <template v-for="item in menuData" :key="item.path">
         <MenuItem :data="item" />
       </template>

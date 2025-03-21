@@ -36,6 +36,10 @@ const formRules = reactive<FormRules>({
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
   ],
+  name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+    { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' },
+  ],
   nickname: [
     { required: true, message: '请输入昵称', trigger: 'blur' },
     { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
@@ -66,6 +70,9 @@ async function handleSubmit() {
   <FormDialog v-model="dialogVisible" title="新增" :model="form" :rules="formRules" @submit="handleSubmit">
     <el-form-item label="用户名" prop="username">
       <el-input v-model="form.username" />
+    </el-form-item>
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input v-model="form.password" />

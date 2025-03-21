@@ -11,6 +11,8 @@ import { reactive, ref } from 'vue'
 const form = reactive({
   current: 1,
   size: 10,
+  sortField: '',
+  sortOrder: '',
   username: '',
   phone: '',
   email: '',
@@ -27,7 +29,11 @@ function handleSearch() {
     data.value = res.data
   })
 }
-
+function handleSortChange(data: { prop: string, order: any }) {
+  form.sortField = data.prop
+  form.sortOrder = data.order
+  handleSearch()
+}
 function handleView(row: any) {
   id.value = row.id
   viewVisible.value = true
@@ -76,8 +82,10 @@ handleSearch()
     :records="data.records"
     :total="data.total"
     @refresh="handleSearch"
+    @sort-change="handleSortChange"
   >
-    <el-table-column prop="username" label="用户名" width="180" />
+    <el-table-column sortable="custom" prop="username" label="用户名" width="180" />
+    <el-table-column sortable="custom" prop="name" label="姓名" width="180" />
     <el-table-column prop="nickname" label="昵称" width="180" />
     <el-table-column prop="email" label="邮箱" width="180" />
     <el-table-column prop="phone" label="手机号" width="180" />

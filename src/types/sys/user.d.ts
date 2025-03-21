@@ -1,5 +1,6 @@
 export interface SaveUserDTO {
   username?: string
+  name?: string
   password?: string
   nickname?: string
   email?: string
@@ -9,6 +10,7 @@ export interface SaveUserDTO {
 
 export interface UpdateUserDTO {
   username?: string
+  name?: string
   nickname?: string
   email?: string
   phone?: string
@@ -17,6 +19,7 @@ export interface UpdateUserDTO {
 
 export interface ViewUserVO {
   username?: string
+  name?: string
   nickname?: string
   email?: string
   phone?: string
