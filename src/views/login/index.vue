@@ -2,6 +2,7 @@
 import type { FormInstance, FormRules } from 'element-plus'
 import { login } from '@/api/login.ts'
 import { useUserInfoStore } from '@/stores/userInfo.ts'
+import { rsaEncrypt } from '@/utils/crypto.ts'
 import { Session } from '@/utils/storage.ts'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -34,6 +35,7 @@ async function handleLogin() {
     return
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
+      loginForm.password = await rsaEncrypt(loginForm.password)
       const loginRes = await login(loginForm)
       Session.setToken(loginRes.data.tokenValue)
 

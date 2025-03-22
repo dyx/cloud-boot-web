@@ -14,3 +14,10 @@ export function logout() {
     method: 'post',
   })
 }
+
+export function getPublicKey() {
+  return request({
+    url: '/auth/public-key',
+    method: 'get',
+  })
+}
