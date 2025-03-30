@@ -68,7 +68,7 @@ handleSearch()
     @sort-change="handleSortChange"
   >
     <el-table-column sortable="custom" prop="name" label="名称" width="180" />
-    <el-table-column prop="description" label="描述" />
+    <el-table-column show-overflow-tooltip prop="description" label="描述" />
     <el-table-column fixed="right" align="center" label="操作" width="136">
       <template #default="{ row }">
         <el-button v-perm="'role:update'" type="primary" size="small" @click="handleUpdate(row)">

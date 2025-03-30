@@ -30,6 +30,14 @@ export function getUserById(id: string) {
   })
 }
 
+export function assignRole(id: string, data: any) {
+  return request({
+    url: `/user/user/${id}/assign-role`,
+    method: 'post',
+    data,
+  })
+}
+
 export function saveUser(data: any) {
   return request({
     url: `/user/user`,

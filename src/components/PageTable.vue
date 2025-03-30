@@ -1,10 +1,27 @@
 <script setup lang="ts">
+import type { PropType } from 'vue'
 import { computed, watch } from 'vue'
 
 const props = defineProps({
+  stripe: {
+    type: Boolean,
+    default: true,
+  },
+  showSelectionColumn: {
+    type: Boolean,
+    default: false,
+  },
+  selectable: {
+    type: Function as PropType<(row: any, index: number) => boolean>,
+    default: () => () => true,
+  },
   showIndexColumn: {
     type: Boolean,
     default: true,
+  },
+  rowClassName: {
+    type: Function as PropType<(row: any, rowIndex: number) => string>,
+    default: () => () => '',
   },
   records: {
     type: Array,
@@ -28,7 +45,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:current', 'update:size', 'refresh', 'sortChange'])
+const emit = defineEmits(['update:current', 'update:size', 'refresh', 'selectionChange', 'sortChange', 'rowDbclick'])
 
 const currentModel = computed({
   get: () => props.current,
@@ -47,7 +64,17 @@ watch([() => props.current, () => props.size], () => {
 
 <template>
   <div>
-    <el-table border stripe :data="records" style="width: 100%" @sort-change="$emit('sortChange', $event)">
+    <el-table
+      border
+      :stripe="stripe"
+      :data="records"
+      style="width: 100%"
+      :row-class-name="props.rowClassName"
+      @selection-change="$emit('selectionChange', $event)"
+      @sort-change="$emit('sortChange', $event)"
+      @row-dblclick="$emit('rowDbclick', $event)"
+    >
+      <el-table-column v-if="showSelectionColumn" :selectable="props.selectable" type="selection" width="36" />
       <el-table-column v-if="showIndexColumn" type="index" align="center" label="#" width="48" />
       <slot />
     </el-table>

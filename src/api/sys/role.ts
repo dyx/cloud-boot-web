@@ -8,11 +8,10 @@ export function getRolePage(params: any) {
   })
 }
 
-export function listRoles(params: any) {
+export function listRolesByUserId(userId: string) {
   return request({
-    url: '/user/role/list',
+    url: `/user/role/user/${userId}`,
     method: 'get',
-    params,
   })
 }
 

@@ -1,6 +1,6 @@
-export interface Page {
+export interface Page<T> {
   total?: number
-  records?: []
+  records?: T[]
 }
 
 interface UserInfoVO {
